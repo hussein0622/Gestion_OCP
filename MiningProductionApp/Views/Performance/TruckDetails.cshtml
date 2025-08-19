@@ -1,0 +1,124 @@
+@model MiningProductionApp.Models.TruckPerformance
+
+@{
+    ViewData["Title"] = "Détails Performance Camion";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">
+                            <i class="fas fa-truck"></i> Performance Camion - @Model.PerformanceCode
+                        </h4>
+                        <a href="@Url.Action("Index")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Retour
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6 class="card-title text-primary">
+                                        <i class="fas fa-info-circle"></i> Informations Générales
+                                    </h6>
+                                    <dl class="row mb-0">
+                                        <dt class="col-sm-5">Code:</dt>
+                                        <dd class="col-sm-7">
+                                            <span class="badge bg-primary fs-6">@Model.PerformanceCode</span>
+                                        </dd>
+
+                                        <dt class="col-sm-5">Date:</dt>
+                                        <dd class="col-sm-7">@Model.Date.ToString("dddd, dd MMMM yyyy")</dd>
+
+                                        <dt class="col-sm-5">Véhicule:</dt>
+                                        <dd class="col-sm-7">
+                                            <i class="fas fa-truck text-secondary"></i> @Model.Vehicle
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6 class="card-title text-success">
+                                        <i class="fas fa-chart-line"></i> Statistiques
+                                    </h6>
+                                    <dl class="row mb-0">
+                                        <dt class="col-sm-6">Total Voyages:</dt>
+                                        <dd class="col-sm-6">
+                                            <strong>@Model.TotalTrips.ToString("N0")</strong>
+                                        </dd>
+
+                                        <dt class="col-sm-6">Tonnage Total:</dt>
+                                        <dd class="col-sm-6">
+                                            <strong class="text-success">@Model.TotalTonnage.ToString("N1") T</strong>
+                                        </dd>
+
+                                        <dt class="col-sm-6">Heures d'Opération:</dt>
+                                        <dd class="col-sm-6">
+                                            <strong>@Model.OperatingHours.ToString("N1") h</strong>
+                                        </dd>
+
+                                        <dt class="col-sm-6">Heures Maintenance:</dt>
+                                        <dd class="col-sm-6">
+                                            <strong>@Model.MaintenanceHours.ToString("N1") h</strong>
+                                        </dd>
+
+                                        <dt class="col-sm-6">Consommation:</dt>
+                                        <dd class="col-sm-6">
+                                            <strong>@Model.FuelConsumption.ToString("N1") L</strong>
+                                        </dd>
+
+                                        <dt class="col-sm-6">Disponibilité:</dt>
+                                        <dd class="col-sm-6">
+                                            <strong class="text-success">@Model.Availability.ToString("N1") %</strong>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Observations))
+                    {
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-info">
+                                            <i class="fas fa-comment"></i> Observations
+                                        </h6>
+                                        <p class="mb-0">@Model.Observations</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6 class="card-title text-muted">
+                                        <i class="fas fa-clock"></i> Informations Système
+                                    </h6>
+                                    <dl class="row mb-0">
+                                        <dt class="col-sm-3">Date de création:</dt>
+                                        <dd class="col-sm-9 text-muted">@Model.CreatedDate.ToString("dd/MM/yyyy HH:mm")</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

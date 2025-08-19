@@ -1,0 +1,65 @@
+@model MiningProductionApp.Models.Quality
+
+@{
+    ViewData["Title"] = "Supprimer Échantillon";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0"><i class="fas fa-exclamation-triangle"></i> Confirmer la Suppression</h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Attention!</strong> Cette action est irréversible.
+                    </div>
+
+                    <h5>Êtes-vous sûr de vouloir supprimer cet échantillon?</h5>
+
+                    <div class="mt-4">
+                        <dl class="row">
+                            <dt class="col-sm-4">N° Échantillon:</dt>
+                            <dd class="col-sm-8"><strong>@Model.SampleNumber</strong></dd>
+
+                            <dt class="col-sm-4">Date:</dt>
+                            <dd class="col-sm-8">@Model.Date.ToString("dd/MM/yyyy")</dd>
+
+                            <dt class="col-sm-4">Zone:</dt>
+                            <dd class="col-sm-8">@Model.ProductionZone</dd>
+
+                            <dt class="col-sm-4">Type de Minerai:</dt>
+                            <dd class="col-sm-8">@Model.OreType</dd>
+
+                            <dt class="col-sm-4">Teneur:</dt>
+                            <dd class="col-sm-8"><strong class="text-success">@Model.Grade.ToString("N1") %</strong></dd>
+
+                            <dt class="col-sm-4">Humidité:</dt>
+                            <dd class="col-sm-8"><strong class="text-info">@Model.Moisture.ToString("N1") %</strong></dd>
+
+                            @if (!string.IsNullOrEmpty(Model.Observations))
+                            {
+                                <dt class="col-sm-4">Observations:</dt>
+                                <dd class="col-sm-8">@Model.Observations</dd>
+                            }
+                        </dl>
+                    </div>
+
+                    <form asp-action="Delete" method="post" class="mt-4">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Annuler
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Confirmer la Suppression
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

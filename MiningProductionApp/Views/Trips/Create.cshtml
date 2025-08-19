@@ -1,0 +1,106 @@
+﻿@model MiningProductionApp.Models.Trip
+
+@{
+    ViewData["Title"] = "Nouveau Voyage";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0"><i class="fas fa-plus"></i> Nouveau Voyage</h4>
+                        <a href="@Url.Action("Index")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Retour
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="TripNumber" class="form-label"></label>
+                                    <input asp-for="TripNumber" class="form-control" readonly />
+                                    <span asp-validation-for="TripNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Date" class="form-label"></label>
+                                    <input asp-for="Date" type="date" class="form-control" />
+                                    <span asp-validation-for="Date" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Vehicle" class="form-label"></label>
+                                    <input asp-for="Vehicle" class="form-control" placeholder="Ex: Camion-001" />
+                                    <span asp-validation-for="Vehicle" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Driver" class="form-label"></label>
+                                    <input asp-for="Driver" class="form-control" placeholder="Ex: Mohamed Alami" />
+                                    <span asp-validation-for="Driver" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label asp-for="ProductionZone" class="form-label"></label>
+                                    <select asp-for="ProductionZone" class="form-select">
+                                        <option value="">-- Sélectionner une zone --</option>
+                                        <option value="Zone A - Carrière Nord">Zone A - Carrière Nord</option>
+                                        <option value="Zone B - Carrière Sud">Zone B - Carrière Sud</option>
+                                        <option value="Zone C - Carrière Est">Zone C - Carrière Est</option>
+                                        <option value="Zone D - Carrière Ouest">Zone D - Carrière Ouest</option>
+                                    </select>
+                                    <span asp-validation-for="ProductionZone" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="Tonnage" class="form-label"></label>
+                                    <div class="input-group">
+                                        <input asp-for="Tonnage" class="form-control" step="0.1" min="0" />
+                                        <span class="input-group-text">T</span>
+                                    </div>
+                                    <span asp-validation-for="Tonnage" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Observations" class="form-label"></label>
+                            <textarea asp-for="Observations" class="form-control" rows="3" placeholder="Observations optionnelles..."></textarea>
+                            <span asp-validation-for="Observations" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="@Url.Action("Index")" class="btn btn-secondary">Annuler</a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Créer le Voyage
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,240 @@
+@model MiningProductionApp.ViewModels.DriversTrucksViewModel
+
+@{
+    ViewData["Title"] = "Gestion Conducteurs & Camions";
+}
+
+<div class="container-fluid">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1">Gestion Conducteurs & Camions</h2>
+                    <p class="text-muted mb-0">Tableau de référence central pour les conducteurs et camions</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Total Conducteurs</h6>
+                            <h3 class="mb-0">@ViewBag.TotalDrivers</h3>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-users fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Conducteurs Actifs</h6>
+                            <h3 class="mb-0">@ViewBag.ActiveDrivers</h3>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-user-check fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Total Camions</h6>
+                            <h3 class="mb-0">@ViewBag.TotalTrucks</h3>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-truck fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Camions Opérationnels</h6>
+                            <h3 class="mb-0">@ViewBag.OperationalTrucks</h3>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-truck-moving fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drivers Section -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-users"></i> Conducteurs
+                </h5>
+                <a href="@Url.Action("CreateDriver")" class="btn btn-light btn-sm">
+                    <i class="fas fa-plus"></i> Nouveau Conducteur
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Code</th>
+                            <th>Nom</th>
+                            <th>Téléphone</th>
+                            <th>Licence</th>
+                            <th>Date Embauche</th>
+                            <th>Statut</th>
+                            <th>Observations</th>
+                            <th width="150">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var driver in Model.Drivers)
+                        {
+                            <tr>
+                                <td><strong>@driver.DriverCode</strong></td>
+                                <td>@driver.DriverName</td>
+                                <td>@driver.PhoneNumber</td>
+                                <td>@driver.LicenseNumber</td>
+                                <td>@(driver.HireDate?.ToString("dd/MM/yyyy") ?? "-")</td>
+                                <td>
+                                    @if (driver.Status == "Actif")
+                                    {
+                                        <span class="badge bg-success">@driver.Status</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">@driver.Status</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(driver.Observations))
+                                    {
+                                        <span class="text-muted">@(driver.Observations.Length > 30 ? driver.Observations.Substring(0, 30) + "..." : driver.Observations)</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("EditDriver", new { id = driver.DriverCode })" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="@Url.Action("DeleteDriver", new { id = driver.DriverCode })" class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trucks Section -->
+    <div class="card">
+        <div class="card-header bg-info text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-truck"></i> Camions
+                </h5>
+                <a href="@Url.Action("CreateTruck")" class="btn btn-light btn-sm">
+                    <i class="fas fa-plus"></i> Nouveau Camion
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-info">
+                        <tr>
+                            <th>Code</th>
+                            <th>Nom</th>
+                            <th>Marque/Modèle</th>
+                            <th>Immatriculation</th>
+                            <th>Capacité (T)</th>
+                            <th>Année</th>
+                            <th>Statut</th>
+                            <th>Observations</th>
+                            <th width="150">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var truck in Model.Trucks)
+                        {
+                            <tr>
+                                <td><strong>@truck.TruckCode</strong></td>
+                                <td>@truck.TruckName</td>
+                                <td>@truck.Brand @truck.Model</td>
+                                <td>@truck.RegistrationNumber</td>
+                                <td>@(truck.Capacity?.ToString("N1") ?? "-")</td>
+                                <td>@(truck.ManufacturingYear?.ToString() ?? "-")</td>
+                                <td>
+                                    @if (truck.Status == "Opérationnel")
+                                    {
+                                        <span class="badge bg-success">@truck.Status</span>
+                                    }
+                                    else if (truck.Status == "Maintenance")
+                                    {
+                                        <span class="badge bg-warning">@truck.Status</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">@truck.Status</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(truck.Observations))
+                                    {
+                                        <span class="text-muted">@(truck.Observations.Length > 30 ? truck.Observations.Substring(0, 30) + "..." : truck.Observations)</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("EditTruck", new { id = truck.TruckCode })" class="btn btn-outline-info btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="@Url.Action("DeleteTruck", new { id = truck.TruckCode })" class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div class="toast show" role="alert">
+            <div class="toast-header bg-success text-white">
+                <strong class="me-auto">Succès</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["SuccessMessage"]
+            </div>
+        </div>
+    </div>
+} 

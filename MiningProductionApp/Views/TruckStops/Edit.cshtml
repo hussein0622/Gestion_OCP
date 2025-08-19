@@ -1,0 +1,127 @@
+@model MiningProductionApp.Models.TruckStop
+
+@{
+    ViewData["Title"] = "Modifier Arrêt";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0"><i class="fas fa-edit"></i> Modifier Arrêt - @Model.StopNumber</h4>
+                        <a href="@Url.Action("Index")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Retour
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="CreatedDate" />
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="StopNumber" class="form-label"></label>
+                                    <input asp-for="StopNumber" class="form-control" />
+                                    <span asp-validation-for="StopNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Date" class="form-label"></label>
+                                    <input asp-for="Date" type="date" class="form-control" />
+                                    <span asp-validation-for="Date" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Vehicle" class="form-label"></label>
+                                    <input asp-for="Vehicle" class="form-control" />
+                                    <span asp-validation-for="Vehicle" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Driver" class="form-label"></label>
+                                    <input asp-for="Driver" class="form-control" />
+                                    <span asp-validation-for="Driver" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label asp-for="StopType" class="form-label"></label>
+                                    <select asp-for="StopType" class="form-select">
+                                        <option value="">-- Sélectionner un type --</option>
+                                        <option value="Maintenance Préventive">Maintenance Préventive</option>
+                                        <option value="Panne Mécanique">Panne Mécanique</option>
+                                        <option value="Ravitaillement">Ravitaillement</option>
+                                        <option value="Pause Chauffeur">Pause Chauffeur</option>
+                                        <option value="Autre">Autre</option>
+                                    </select>
+                                    <span asp-validation-for="StopType" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="StartTime" class="form-label"></label>
+                                    <input asp-for="StartTime" type="time" class="form-control" />
+                                    <span asp-validation-for="StartTime" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="EndTime" class="form-label"></label>
+                                    <input asp-for="EndTime" type="time" class="form-control" />
+                                    <span asp-validation-for="EndTime" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="Duration" class="form-label"></label>
+                                    <div class="input-group">
+                                        <input asp-for="Duration" class="form-control" step="0.1" min="0" />
+                                        <span class="input-group-text">h</span>
+                                    </div>
+                                    <span asp-validation-for="Duration" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Observations" class="form-label"></label>
+                            <textarea asp-for="Observations" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Observations" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="@Url.Action("Index")" class="btn btn-secondary">Annuler</a>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-save"></i> Modifier
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

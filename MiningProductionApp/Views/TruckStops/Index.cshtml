@@ -1,0 +1,169 @@
+@model IEnumerable<MiningProductionApp.Models.TruckStop>
+
+@{
+    ViewData["Title"] = "TDB des Arrêts - Tableau de Bord";
+}
+
+<div class="container-fluid">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1">TDB des Arrêts Camions</h2>
+                    <p class="text-muted mb-0">Gestion des arrêts et maintenance des camions</p>
+                </div>
+                <div>
+                    <a href="@Url.Action("Create")" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Nouvel Arrêt
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Total Arrêts</h6>
+                            <h3 class="mb-0">@ViewBag.TotalStops</h3>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-stop-circle fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Durée Totale</h6>
+                            <h3 class="mb-0">@ViewBag.TotalDuration.ToString("N1") h</h3>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-clock fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Durée Moyenne</h6>
+                            <h3 class="mb-0">@ViewBag.AverageDuration.ToString("N1") h</h3>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-chart-line fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- TruckStops Table -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Liste des Arrêts</h5>
+        </div>
+        <div class="card-body">
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>N° Arrêt</th>
+                                <th>Date</th>
+                                <th>Véhicule</th>
+                                <th>Chauffeur</th>
+                                <th>Type d'Arrêt</th>
+                                <th>Début</th>
+                                <th>Fin</th>
+                                <th>Durée (h)</th>
+                                <th>Observations</th>
+                                <th width="120">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var stop in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <strong>@stop.StopNumber</strong>
+                                    </td>
+                                    <td>
+                                        @stop.Date.ToString("dd/MM/yyyy")
+                                    </td>
+                                    <td>@stop.Vehicle</td>
+                                    <td>@stop.Driver</td>
+                                    <td>
+                                        <span class="badge bg-secondary">@stop.StopType</span>
+                                    </td>
+                                    <td>@stop.StartTime.ToString("HH:mm")</td>
+                                    <td>@stop.EndTime.ToString("HH:mm")</td>
+                                    <td>
+                                        <strong class="text-success">@stop.Duration.ToString("N1")</strong>
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(stop.Observations))
+                                        {
+                                            <span class="text-muted">@(stop.Observations.Length > 30 ? stop.Observations.Substring(0, 30) + "..." : stop.Observations)</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">-</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <a href="@Url.Action("Details", new { id = stop.Id })" class="btn btn-outline-info" title="Détails">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="@Url.Action("Edit", new { id = stop.Id })" class="btn btn-outline-warning" title="Modifier">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="@Url.Action("Delete", new { id = stop.Id })" class="btn btn-outline-danger" title="Supprimer">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="fas fa-stop-circle fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Aucun arrêt enregistré</h5>
+                    <p class="text-muted">Commencez par créer votre premier arrêt</p>
+                    <a href="@Url.Action("Create")" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Créer un arrêt
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
